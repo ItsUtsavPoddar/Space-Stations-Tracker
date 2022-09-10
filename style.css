@@ -1,0 +1,23 @@
+body {
+    background-image: url(https://stsci-opo.org/STScI-01G8H1K2BCNATEZSKVRN9Z69SR.png);
+     background-size: cover; 
+   
+   
+  }
+
+h1 {
+
+    text-align: center;
+}
+
+.iss{
+    color: aliceblue;
+    display: block;
+    margin-top: inline;
+}
+
+.tss {
+    color: white;
+    text-align: right;
+    display: block ;
+}
