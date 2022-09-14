@@ -26,7 +26,7 @@
 
 
 console.log(isslong,isslat);
-
+locateiss(isslat,isslong);
 document.getElementById("ISS").innerHTML="Longitude: "+isslong+"   Latitude: "+isslat;
 
 setTimeout( this.displayiss, 1000 ,line1 , line2);
@@ -48,6 +48,7 @@ setTimeout( this.displayiss, 1000 ,line1 , line2);
 
 
 console.log(tsslong,tsslat);
+locatetss(tsslat,tsslong);
 document.getElementById("TSS").innerHTML="Longitude: "+tsslong+"   Latitude: "+tsslat;
 
 setTimeout( this.displaytss, 1000 ,line1 , line2);
