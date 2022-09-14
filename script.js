@@ -21,12 +21,13 @@
     const gmst = satellite.gstime(date);
     const position = satellite.eciToGeodetic(positionAndVelocity.position, gmst);
 
-    const tsslong = radians_to_degrees(position.longitude);
-    const tsslat = radians_to_degrees(position.latitude);
+    const isslong = radians_to_degrees(position.longitude);
+    const isslat = radians_to_degrees(position.latitude);
 
 
-console.log(tsslong,tsslat);
-document.getElementById("ISS").innerHTML="Longitude: "+tsslong+"   Latitude: "+tsslat;
+console.log(isslong,isslat);
+
+document.getElementById("ISS").innerHTML="Longitude: "+isslong+"   Latitude: "+isslat;
 
 setTimeout( this.displayiss, 1000 ,line1 , line2);
 
@@ -60,7 +61,8 @@ function radians_to_degrees(radians)
 {
   var pi = Math.PI;
   const u = radians * (180/pi);
+  
   return u.toFixed(4);
 }
 // RADIANS TO DEGREES 
-      
+
