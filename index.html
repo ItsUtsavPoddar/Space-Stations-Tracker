@@ -22,7 +22,7 @@
 <script src="script.js">  </script>
 
 </head>
-<body onload="fetchiss() , fetchtss() ">  
+<body onload="fetchiss() , fetchtss(), fetchpath()">  
     
     <div class = "body">
        
@@ -39,6 +39,21 @@
             </article>
         </div>
     </div>
+    <div id = "selectPath">
+        
+        
+        <div>
+            <input type="checkbox" id="iss" name="scales">
+            <label for="scales">ISS</label>
+        </div>
+      
+        <div>
+            <input type="checkbox" id="horns" name="horns">
+            <label for="horns">TSS</label>
+        </div>
+ 
+    </div>
+
     <div id="map"> </div>
     
     

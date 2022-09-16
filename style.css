@@ -1,6 +1,8 @@
 body {
-    background-image: url('https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg');
-     font-family: 'Open Sans', sans-serif;
+    background: url('https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg');
+    background-repeat: no-repeat;
+    background-size: 2600px 1463px;
+    font-family: 'Open Sans', sans-serif;
   }
 
 h1,h2,p,h3{
@@ -55,4 +57,9 @@ h1 {
     width: 70%;
     border-radius: 10px;
   
+}
+
+#ISSpath {
+
+    color: white;
 }

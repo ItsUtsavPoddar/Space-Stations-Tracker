@@ -3,13 +3,14 @@
 var map = L.map('map', {
     center: [0,0],
     zoom: 1
-});
+}); 
 
 //Instantiates a tile layer object given a URL template (Here its google Hybrid Map image) with its default attributes
 
 L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
     maxZoom: 20,
-    subdomains:['mt0','mt1','mt2','mt3']
+    subdomains:['mt0','mt1','mt2','mt3'],
+    //noWrap: true
 }).addTo(map);
 
 
@@ -56,7 +57,7 @@ var icontss = L.icon({
         // Instantiates a Marker object given a geographical point and optionally an options object. 
         // Here it contains icon option
 
-        var satmarkeriss = L.marker([0, 0],{icon: iconiss}).addTo(map)
+    var satmarkeriss =  L.marker([0, 0],{icon: iconiss}).addTo(map)
 
 //FOR TSS
     //Instantiates a circle object given a geographical point, and an options object which contains the circle radius, etc
@@ -72,7 +73,7 @@ var icontss = L.icon({
         // Instantiates a Marker object given a geographical point and optionally an options object. 
         // Here it contains icon option
 
-        var satmarkertss = L.marker([0, 0],{icon: icontss}).addTo(map)
+    var satmarkertss = L.marker([0, 0],{icon: icontss}).addTo(map)
 
 
 // gets the cords from Script.js for marker and circle for ISS
@@ -83,13 +84,13 @@ function locateiss(lat,long) {
 
     };
 
-// gets the cords from Script.js for marker and circle for TSS 
+// gets the cords from Script.js for marker and circle for TSS
 function locatetss(lat,long) {
 
         satmarkertss.setLatLng([lat,long]);
         satcircletss.setLatLng([lat,long]);
     
-        };
+    };
 
 
 // clicking on the map and you will see the coordinates in a popup (FROM DOCUMENTATION OF LEAFLET)      
@@ -102,4 +103,13 @@ function onMapClick(e) {
         .openOn(map);
 }
 map.on('click', onMapClick);
+
+
+
+
+animate = function (pathCordIss) {
+var polyline = L.polyline (pathCordIss , 
+    {color: "red"}).addTo(map);
+    
+};
 
