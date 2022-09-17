@@ -19,10 +19,10 @@
 
 <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
 
-<script src="script.js">  </script>
+
 
 </head>
-<body onload="fetchiss() , fetchtss(), fetchpath()">  
+<body >  
     
     <div class = "body">
        
@@ -39,12 +39,12 @@
             </article>
         </div>
     </div>
-    <div id = "selectPath">
+    <div id = "selectSat">
         
         
         <div>
-            <input type="checkbox" id="iss" name="scales">
-            <label for="scales">ISS</label>
+            <input type="checkbox" id="isscheckbox" name="isscheckbo1x" value="isscheckbox" >
+            <label for="isscheckbox">ISS</label>
         </div>
       
         <div>
@@ -56,7 +56,7 @@
 
     <div id="map"> </div>
     
-    
+    <script src="script.js">  </script>
     <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
     <script src="map.js"></script>
 </body>

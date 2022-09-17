@@ -2,9 +2,11 @@
 
 var map = L.map('map', {
     center: [0,0],
-    zoom: 1
+    zoom: 1,
+    worldCopyJump: true
 }); 
-
+map.setMaxBounds(  [[-90,-180],   [90,180]]  );
+map.setMinZoom(1);
 //Instantiates a tile layer object given a URL template (Here its google Hybrid Map image) with its default attributes
 
 L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
@@ -24,7 +26,6 @@ setInterval(function() {
 }, 1000);    
     
 
-
 //Represents an icon to provide when creating a marker
 
 //icon for ISS
@@ -41,23 +42,16 @@ var icontss = L.icon({
     iconAnchor: [25, 15],
 })
 
+// clicking on the map and you will see the coordinates in a popup (FROM DOCUMENTATION OF LEAFLET)      
+var popup = L.popup();
 
-
-//FOR ISS
-    //Instantiates a circle object given a geographical point, and an options object which contains the circle radius, etc
-    var satcircleiss = L.circle([0, 0], {
-        weight:1,
-        opacity:0.4,
-        color: 'red',
-        fillColor: '#f03',
-        fillOpacity: 0.2,
-        radius:  2200e3
-        }).addTo(map);
-
-        // Instantiates a Marker object given a geographical point and optionally an options object. 
-        // Here it contains icon option
-
-    var satmarkeriss =  L.marker([0, 0],{icon: iconiss}).addTo(map)
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent(e.latlng.toString())
+        .openOn(map);
+}
+map.on('click', onMapClick);
 
 //FOR TSS
     //Instantiates a circle object given a geographical point, and an options object which contains the circle radius, etc
@@ -76,14 +70,6 @@ var icontss = L.icon({
     var satmarkertss = L.marker([0, 0],{icon: icontss}).addTo(map)
 
 
-// gets the cords from Script.js for marker and circle for ISS
-function locateiss(lat,long) {
-
-    satmarkeriss.setLatLng([lat,long]);
-    satcircleiss.setLatLng([lat,long]);
-
-    };
-
 // gets the cords from Script.js for marker and circle for TSS
 function locatetss(lat,long) {
 
@@ -92,24 +78,8 @@ function locatetss(lat,long) {
     
     };
 
-
-// clicking on the map and you will see the coordinates in a popup (FROM DOCUMENTATION OF LEAFLET)      
-var popup = L.popup();
-
-function onMapClick(e) {
-    popup
-        .setLatLng(e.latlng)
-        .setContent(e.latlng.toString())
-        .openOn(map);
-}
-map.on('click', onMapClick);
+  
 
 
 
-
-animate = function (pathCordIss) {
-var polyline = L.polyline (pathCordIss , 
-    {color: "red"}).addTo(map);
-    
-};
 
