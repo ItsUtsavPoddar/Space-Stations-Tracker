@@ -53,6 +53,7 @@ function onMapClick(e) {
 }
 map.on('click', onMapClick);
 
+
 //FOR TSS
     //Instantiates a circle object given a geographical point, and an options object which contains the circle radius, etc
     var satcircletss = L.circle([0, 0], {
@@ -67,19 +68,40 @@ map.on('click', onMapClick);
         // Instantiates a Marker object given a geographical point and optionally an options object. 
         // Here it contains icon option
 
-    var satmarkertss = L.marker([0, 0],{icon: icontss}).addTo(map)
+    var satmarkertss = L.marker([0, 0],{icon: icontss}).addTo(map);
 
+    var pathcordtss1 = L.polyline( [[0,0],[0,0]], {color: "yellow"}).addTo(map);
+    var pathcordtss2 = L.polyline([[0,0],[0,0]], {color: "yellow"}).addTo(map);
 
-// gets the cords from Script.js for marker and circle for TSS
-function locatetss(lat,long) {
+    map.removeLayer(pathcordtss1);
+    map.removeLayer(pathcordtss2);
+    map.removeLayer(satmarkertss);
+    map.removeLayer(satcircletss);
 
-        satmarkertss.setLatLng([lat,long]);
-        satcircletss.setLatLng([lat,long]);
-    
-    };
 
   
+//FOR ISS
+  //Instantiates a circle object given a geographical point, and an options object which contains the circle radius, etc
+ 
+  var satcircleiss = L.circle([0, 0], {
+    weight:1,
+    opacity:0.4,
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.2,
+    radius:  2200e3
+    }).addTo(map);
 
+// Instantiates a Marker object given a geographical point and optionally an options object. 
+// Here it contains icon option
 
+  var satmarkeriss =  L.marker([0, 0],{icon: iconiss}).addTo(map);
 
+  var pathcordiss1 = L.polyline( [[0,0],[0,0]], {color: "red"}).addTo(map);
+  var pathcordiss2 = L.polyline([[0,0],[0,0]], {color: "red"}).addTo(map);
+
+  map.removeLayer(pathcordiss1);
+  map.removeLayer(pathcordiss2);
+  map.removeLayer(satmarkeriss);
+  map.removeLayer(satcircleiss);
 

@@ -1,34 +1,3 @@
-
-/*fetchtss =  function (){
-    fetch("https://tle.ivanstanojevic.me/api/tle/48274")            // fetching the data from celesTrak (TLE API) 
-    .then((response) => response.json())                            // pulling json file from the response
-    .then((data) => this.displaytss(data.line1 , data.line2));      //Line 1 and Line 2 is from TLE format
-  
-  };
-
-   var y; // VARIABLE TO STORE SET-TIMEOUT FUNCTION
-   
-   var tssOpen = false; // BOOLEAN VARIABLE TO TOGGLE ISS MARKERS
-
-displaytss = function (line1 , line2){    
-    
-        var cords = this.cords(line1, line2);
-        tsslong = cords[0];
-        tsslat = cords[1];
-
-        console.log(tsslong.toFixed(4),tsslat.toFixed(4));
-
-        locatetss(tsslat,tsslong); //map.js function
-
-        document.getElementById("TSS").innerHTML="Longitude: "+tsslong.toFixed(4)+"   Latitude: "+tsslat.toFixed(4); // printing on the HTML 
-
-        // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
-        
-        setTimeout( this.displaytss, 1000 ,line1 , line2);  
-};*/
-
-
-
 cords = function (line1 , line2){
   
   
@@ -61,14 +30,14 @@ cords = function (line1 , line2){
 
 path = function(line1 , line2){
 
-      var pathcords1 = [];
-      var pathcords2 =[];
+      var pathC1 = [];
+      var pathC2 =[];
       const satrec = satellite.twoline2satrec(line1,line2 );
       var date = new Date();
       var i = 0;
 
       console.log(date);
-      for (; i<6000 ; i++) { 
+      for (; i<5000 ; i++) { 
 
       var positionAndVelocity = satellite.propagate(satrec, date);
       const gmst = satellite.gstime(date);
@@ -78,7 +47,7 @@ path = function(line1 , line2){
       const lat = satellite.degreesLong(positionGd.latitude);
         if (long < 179){
 
-      pathcords1.push([lat,long]);
+          pathC1.push([lat,long]);
         }
         else if (long > 179.75){
 
@@ -87,7 +56,7 @@ path = function(line1 , line2){
       date = new Date(date.getTime() + 1000);
     }
 
-    for (var j = 0; j<6000-i ; j++) { 
+    for (var j = 0; j<5000-i ; j++) { 
 
       var positionAndVelocity = satellite.propagate(satrec, date);
       const gmst = satellite.gstime(date);
@@ -97,25 +66,25 @@ path = function(line1 , line2){
       const lat = satellite.degreesLong(positionGd.latitude);
 
         if (long >= -180 && long <= 179 ){
-          pathcords2.push([lat,long]);
+          pathC2.push([lat,long]);
         }
       
       date = new Date(date.getTime() + 1000);
     }
     
-    console.log(pathcords1,pathcords2,i,j,date);
-    return([pathcords1,pathcords2]);
+    console.log(pathC1,pathC2,i,j,date);
+    return([pathC1,pathC2]);
 }
 
-
-
-
+{  //ULTIMATR CODE OF ISS
 
 ultiss = function (check){
-  
-  
-   var a,b; 
 
+  var y;
+    map.addLayer(pathcordiss1);
+    map.addLayer(pathcordiss2);
+    map.addLayer(satmarkeriss);
+    map.addLayer(satcircleiss);
 
   fetchiss = function (){
       fetch("https://tle.ivanstanojevic.me/api/tle/25544")           // fetching the data from celesTrak (TLE API) 
@@ -146,25 +115,9 @@ ultiss = function (check){
 
       // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
       // this.l1 = line1; this.l2 = line2;
-      y = setTimeout( this.displayiss, 1000 ,line1 , line2); 
+      this.y = setTimeout( this.displayiss, 1000 ,line1 , line2); 
   }
       
-//FOR ISS
-  //Instantiates a circle object given a geographical point, and an options object which contains the circle radius, etc
- 
-  var satcircleiss = L.circle([0, 0], {
-    weight:1,
-    opacity:0.4,
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.2,
-    radius:  2200e3
-    }).addTo(map);
-
-// Instantiates a Marker object given a geographical point and optionally an options object. 
-// Here it contains icon option
-
-  var satmarkeriss =  L.marker([0, 0],{icon: iconiss}).addTo(map)
 
   // gets the cords from Script.js for marker and circle for ISS
   locateiss = function (lat,long) {
@@ -174,22 +127,20 @@ ultiss = function (check){
 
   };
 
-  pathiss = function (pathcords){
+  pathiss = function (pathcord){
 
-      a = L.polyline( pathcords[0], {color: "red"}).addTo(map);
-      b = L.polyline(pathcords[1] , {color: "red"}).addTo(map);
+      pathcordiss1.setLatLngs( pathcord[0]);
+      pathcordiss2.setLatLngs( pathcord[1]);
 
-      
   }
 
   deanimate = () => {
    
-    clearTimeout(y);
-    /*map.removeLayer(a);
-    map.removeLayer(b);
+    clearTimeout(this.y);
+    map.removeLayer(pathcordiss1);
+    map.removeLayer(pathcordiss2);
     map.removeLayer(satmarkeriss);
-    map.remove(satcircleiss);*/
-    console.log ("ASd")
+    map.removeLayer(satcircleiss);
   }
   if(check){
     fetchiss();
@@ -201,25 +152,121 @@ ultiss = function (check){
 };
 
 var issOpen = false; // BOOLEAN VARIABLE TO TOGGLE ISS MARKERS
-window.onload = function(){
+
+
+yuck1 = function(){
 var isscheckbox = document.getElementById("isscheckbox");
 console.log(isscheckbox);
 isscheckbox.addEventListener("click" , function(){
 
   if (issOpen){
-      issStop();
+     ultiss(false);
+  issOpen= false;
+
   }
   else {
-    issStart();
+    ultiss(true);
+  issOpen = true;
   } 
 });}
+window.onload = yuck1();
 
-function issStart (){
-  ultiss(true);
-  issOpen = true;
+
 }
 
-function issStop() {
-  ultiss(false);
-  issOpen= false;
+
+{   //ULTIMATR CODE OF TSS
+ulttss = function (check){
+
+  var x;
+  map.addLayer(pathcordtss1);
+  map.addLayer(pathcordtss2);
+  map.addLayer(satmarkertss);
+  map.addLayer(satcircletss);
+
+fetchtss = function (){
+    fetch("https://tle.ivanstanojevic.me/api/tle/48274")           // fetching the data from celesTrak (TLE API) 
+        .then((response) => response.json())                       // pulling json file from the response 
+        .then((data) => tledata(data.line1 , data.line2))          //Line 1 and Line 2 is from TLE format
+};
+
+tledata = function (line1 , line2){
+
+        displaytss(line1,line2);
+        var pathcord = path (line1,line2);
+        pathtss(pathcord);
+
+}
+
+
+displaytss = function (line1 , line2){    
+    
+    var cords = this.cords(line1, line2);
+    tsslong = cords[0];
+    tsslat = cords[1];
+
+    console.log(tsslong.toFixed(4),tsslat.toFixed(4));
+
+    locatetss(tsslat,tsslong); //map.js function
+
+    document.getElementById("TSS").innerHTML="Longitude: "+tsslong.toFixed(4)+"   Latitude: "+tsslat.toFixed(4); // printing on the HTML 
+
+    // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
+    // this.l1 = line1; this.l2 = line2;
+    this.x = setTimeout( this.displaytss, 1000 ,line1 , line2); 
+}
+    
+
+// gets the cords from Script.js for marker and circle for ISS
+locatetss = function (lat,long) {
+
+    satmarkertss.setLatLng([lat,long]);
+    satcircletss.setLatLng([lat,long]);
+
+};
+
+pathtss = function (pathcord){
+
+    pathcordtss1.setLatLngs( pathcord[0]);
+    pathcordtss2.setLatLngs( pathcord[1]);
+
+}
+
+deanimate = () => {
+ 
+  clearTimeout(this.x);
+  map.removeLayer(pathcordtss1);
+  map.removeLayer(pathcordtss2);
+  map.removeLayer(satmarkertss);
+  map.removeLayer(satcircletss);
+}
+if(check){
+  fetchtss();
+}
+else {
+  deanimate();
+}
+
+};
+
+var tssOpen = false; // BOOLEAN VARIABLE TO TOGGLE ISS MARKERS
+
+
+
+yuck2 = function(){
+var tsscheckbox = document.getElementById("tsscheckbox");
+console.log(tsscheckbox);
+tsscheckbox.addEventListener("click" , function(){
+
+  if (tssOpen){
+     ulttss(false);
+  tssOpen= false;
+
+  }
+  else {
+    ulttss(true);
+  tssOpen = true;
+  } 
+});}
+window.onload = yuck2();
 }
