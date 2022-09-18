@@ -37,7 +37,7 @@ path = function(line1 , line2){
       var i = 0;
 
       console.log(date);
-      for (; i<5000 ; i++) { 
+      for (; i<5500 ; i++) { 
 
       var positionAndVelocity = satellite.propagate(satrec, date);
       const gmst = satellite.gstime(date);
@@ -45,7 +45,7 @@ path = function(line1 , line2){
 
       const long = satellite.degreesLong(positionGd.longitude);
       const lat = satellite.degreesLong(positionGd.latitude);
-        if (long < 179){
+        if (long < 179.8){
 
           pathC1.push([lat,long]);
         }
@@ -56,7 +56,7 @@ path = function(line1 , line2){
       date = new Date(date.getTime() + 1000);
     }
 
-    for (var j = 0; j<5000-i ; j++) { 
+    for (var j = 0; j<5500-i ; j++) { 
 
       var positionAndVelocity = satellite.propagate(satrec, date);
       const gmst = satellite.gstime(date);
@@ -75,7 +75,7 @@ path = function(line1 , line2){
     console.log(pathC1,pathC2,i,j,date);
     return([pathC1,pathC2]);
 }
-
+//1
 {  //ULTIMATR CODE OF ISS
 
 ultiss = function (check){
