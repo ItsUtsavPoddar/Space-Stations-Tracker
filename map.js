@@ -6,7 +6,7 @@ var map = L.map('map', {
     worldCopyJump: true
 }); 
 map.setMaxBounds(  [[-90,-180],   [90,180]]  );
-map.setMinZoom(1);
+map.setMinZoom(1.1);
 //Instantiates a tile layer object given a URL template (Here its google Hybrid Map image) with its default attributes
 
 L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
