@@ -12,9 +12,9 @@ ultiss = function (check){
     map.addLayer(satcircleiss);
 
   fetchiss = function (){
-      fetch("https://tle.ivanstanojevic.me/api/tle/25544")           // fetching the data from celesTrak (TLE API) 
-          .then((response) => response.json())                       // pulling json file from the response 
-          .then((data) => tledata("1 25544U 98067A   22274.19759479  .00014979  00000+0  26577-3 0  9997" , "2 25544  51.6446 171.3620 0002537 314.8685 180.8010 15.50443271361628"))          //Line 1 and Line 2 is from TLE format
+      fetch("https://tle.ivanstanojevic.me/api/tle/25544")          // fetching the data from celesTrak (TLE API) 
+          .then((response) =>  response.json())                   // pulling json file from the response 
+          .then((data) => tledata(data.line1 , data.line2))              //Line 1 and Line 2 is from TLE format
   };
 
   tledata = function (line1 , line2){
