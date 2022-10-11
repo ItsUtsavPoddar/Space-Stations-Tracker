@@ -5,16 +5,16 @@
 
 ultiss = function (check){
 
-  var y;
+ 
     map.addLayer(pathcordiss1);
     map.addLayer(pathcordiss2);
     map.addLayer(satmarkeriss);
     map.addLayer(satcircleiss);
 
   fetchiss = function (){
-      fetch("https://tle.ivanstanojevic.me/api/tle/25544")          // fetching the data from celesTrak (TLE API) 
+      fetch("https://tle.ivanstanojevic.me/api/tle/25544")        // fetching the data from celesTrak (TLE API) 
           .then((response) =>  response.json())                   // pulling json file from the response 
-          .then((data) => tledata(data.line1 , data.line2))              //Line 1 and Line 2 is from TLE format
+          .then((data) => tledata(data.line1 , data.line2))       //Line 1 and Line 2 is from TLE format
   };
 
   tledata = function (line1 , line2){
