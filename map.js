@@ -78,6 +78,8 @@ map.on('click', onMapClick);
     map.removeLayer(satmarkertss);
     map.removeLayer(satcircletss);
 
+   
+
 
   
 //FOR ISS
@@ -105,3 +107,103 @@ map.on('click', onMapClick);
   map.removeLayer(satmarkeriss);
   map.removeLayer(satcircleiss);
 
+
+
+   // gets the cords from Script.js for marker and circle for ISS
+   locateiss = function (lat,long) {
+
+    satmarkeriss.setLatLng([lat,long]);
+    satcircleiss.setLatLng([lat,long]);
+
+  };
+
+  pathiss = function (pathcord){
+
+      pathcordiss1.setLatLngs( pathcord[0]);
+      pathcordiss2.setLatLngs( pathcord[1]);
+
+  }
+
+
+
+
+
+
+  
+cords = function (line1 , line2){
+  
+  
+    const satrec = satellite.twoline2satrec(line1,line2 );    // Initializing the satellite record with the TLE (line 1 and line 2)
+    var date = new Date();
+  
+    //date = new Date (date.getTime() + 800000); // <-- TEST CODE (DO NOT UNCOMMENT THE CODE IF YOU DONT KNOW WHAT YOU ARE DOING)
+  
+    // Getting the position of the satellite at the given date 
+    // The position_velocity result is a key-value pair of ECI coordinates.
+    // https://celestrak.org/columns/v02n01/#:~:text=The%20ECI%20coordinate%20system%20(see,orthogonal%20(mutually%20perpendicular)%20axes.
+    
+    var positionAndVelocity = satellite.propagate(satrec, date); 
+    
+    // grabbing GMST for the coordinate transforms.
+    // https://en.wikipedia.org/wiki/Sidereal_time#Definition
+    
+    const gmst = satellite.gstime(date);
+    
+    // converts Earth-centered inertial ECI coordinates, specified by position, to latitude, longitude, altitude (LLA) geodetic coordinates.
+    const positionGd = satellite.eciToGeodetic(positionAndVelocity.position, gmst);
+    
+    // Converting the RADIANS to DEGREES (given the results were in radians)
+    const long = (180*positionGd.longitude)/Math.PI;
+    const lat = (180*positionGd.latitude)/Math.PI;
+    
+        return [long,lat];
+    
+  };
+
+  path = function(line1 , line2){
+
+    var pathC1 = [];
+    var pathC2 =[];
+    const satrec = satellite.twoline2satrec(line1,line2 );
+    var date = new Date();
+    var i = 0;
+
+    console.log(date);
+    for (; i<5500 ; i++) { 
+
+    var positionAndVelocity = satellite.propagate(satrec, date);
+    const gmst = satellite.gstime(date);
+    const positionGd = satellite.eciToGeodetic(positionAndVelocity.position, gmst);
+
+    const long = satellite.degreesLong(positionGd.longitude);
+    const lat = satellite.degreesLong(positionGd.latitude);
+      if (long < 179.8){
+
+        pathC1.push([lat,long]);
+      }
+      else if (long > 179.75){
+
+        break;
+      }
+    date = new Date(date.getTime() + 1000);
+  }
+
+  for (var j = 0; j<5500-i ; j++) { 
+
+    var positionAndVelocity = satellite.propagate(satrec, date);
+    const gmst = satellite.gstime(date);
+    const positionGd = satellite.eciToGeodetic(positionAndVelocity.position, gmst);
+
+    const long = satellite.degreesLong(positionGd.longitude);
+    const lat = satellite.degreesLong(positionGd.latitude);
+
+      if (long >= -180 && long <= 179 ){
+        pathC2.push([lat,long]);
+      }
+    
+    date = new Date(date.getTime() + 1000);
+  }
+  
+  console.log(pathC1,pathC2,i,j,date);
+  return([pathC1,pathC2]);
+}
