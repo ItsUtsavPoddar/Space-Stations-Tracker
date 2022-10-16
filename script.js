@@ -29,8 +29,7 @@ deanimate = () => {
       .then((response) => response.json()) // pulling json file from the response
       .then((data) =>
         tledata1(
-          "1 25544U 98067A   22286.50599244  .00016328  00000+0  29339-3 0  9996",
-          "2 25544  51.6412 110.4001 0003484 302.2718 151.8519 15.50007366363533"
+          "1 25544U 98067A   22289.22895299  .00015391  00000+0  27624-3 0  9991", "2 25544  51.6420  96.9064 0003214 305.9813 232.7500 15.50089432363955"
         )
       ); //Line 1 and Line 2 is from TLE format
   };
@@ -132,7 +131,7 @@ deanimate2 = () => {
     //locateiss(isslat,isslong); //map.js function
 
     document.getElementById("TSS").innerHTML =
-      "Longitude: " + tsslong.toFixed(4) + "   Latitude: " + tsslat.toFixed(4); // printing on the HTML
+      "Longitude: " + tsslong.toFixed(4) + " Latitude: " + tsslat.toFixed(4); // printing on the HTML
 
     // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
     // this.l1 = line1; this.l2 = line2;
