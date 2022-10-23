@@ -1,4 +1,4 @@
-var y;
+var y;git commit - m "disabled fetch from TLE API (api has bug thus wrong data)"
 var issOpen = true; // BOOLEAN VARIABLE TO TOGGLE ISS MARKERS
 
 yuck1 = function () {
@@ -16,6 +16,9 @@ yuck1 = function () {
     }
   });
 };
+
+
+
 deanimate = () => {
     clearTimeout(y);
     map.removeLayer(pathcordiss1);
@@ -24,26 +27,28 @@ deanimate = () => {
     map.removeLayer(satcircleiss);
 };
 
+
   fetchiss = function () {
-    fetch("https://tle.ivanstanojevic.me/api/tle/25544") // fetching the data from celesTrak (TLE API)
+   /* fetch("https://tle.ivanstanojevic.me/api/tle/25544") // fetching the data from celesTrak (TLE API)
       .then((response) => response.json()) // pulling json file from the response
-      .then((data) =>
+      .then((data) => */
         tledata1(
-          "1 25544U 98067A   22289.22895299  .00015391  00000+0  27624-3 0  9991", "2 25544  51.6420  96.9064 0003214 305.9813 232.7500 15.50089432363955"
+          "1 25544U 98067A   22296.61411075  .00009673  00000+0  17934-3 0  9997",
+          "2 25544  51.6435  60.3357 0005249   7.9656 359.4428 15.49658807365106"
         )
-      ); //Line 1 and Line 2 is from TLE format
+     // ); //Line 1 and Line 2 is from TLE format
   };
 
   tledata1 = function (line1, line2) {
     console.log(line1, line2);
-    displayiss(line1, line2);
+    display(line1, line2);
     var pathcord = path(line1, line2);
     pathcordiss1.setLatLngs(pathcord[0]);
     pathcordiss2.setLatLngs(pathcord[1]);
     //pathiss(pathcord);
   };
 
-  displayiss = function (line1, line2) {
+  display = function (line1, line2) {
 
     map.addLayer(pathcordiss1);
     map.addLayer(pathcordiss2);
@@ -65,7 +70,7 @@ deanimate = () => {
 
     // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
     // this.l1 = line1; this.l2 = line2;
-    this.y = setTimeout(this.displayiss, 1000, line1, line2);
+    y = setTimeout(this.display, 1000, line1, line2);
   };
 
 
@@ -96,12 +101,13 @@ deanimate2 = () => {
 };
 
   fetchtss = function () {
-    fetch("https://tle.ivanstanojevic.me/api/tle/48274") // fetching the data from celesTrak (TLE API)
+    /*fetch("https://tle.ivanstanojevic.me/api/tle/48274") // fetching the data from celesTrak (TLE API)
       .then((response) => response.json()) // pulling json file from the response
-      .then((data) =>
-        tledata2("1 48274U 21035A   22286.14597225  .00036693  00000+0  41413-3 0  9993" ,"2 48274  41.4740 220.1889 0000899 113.8930  17.9022 15.61761501 83216")
+      .then((data) =>*/
+        tledata2("1 48274U 21035A   22296.38419186  .00023451  00000+0  26700-3 0  9999",
+        "2 48274  41.4738 157.7999 0003952 195.5225 333.5828 15.61707344 84810")
       
-      ); //Line 1 and Line 2 is from TLE format
+      //); //Line 1 and Line 2 is from TLE format
   };
 
   tledata2 = function (line1, line2) {

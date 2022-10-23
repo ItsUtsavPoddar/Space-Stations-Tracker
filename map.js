@@ -76,6 +76,9 @@ var pathcordtss1 = L.polyline(
   ],
   { color: "yellow" }
 ).addTo(map);
+
+
+
 var pathcordtss2 = L.polyline(
   [
     [0, 0],
