@@ -1,4 +1,4 @@
-var y;git commit - m "disabled fetch from TLE API (api has bug thus wrong data)"
+var y;
 var issOpen = true; // BOOLEAN VARIABLE TO TOGGLE ISS MARKERS
 
 yuck1 = function () {
