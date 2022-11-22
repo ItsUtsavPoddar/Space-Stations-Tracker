@@ -4,7 +4,7 @@ var issOpen = true; // BOOLEAN VARIABLE TO TOGGLE ISS MARKERS
 yuck1 = function () {
   var isscheckbox = document.getElementById("isscheckbox");
 
-  console.log(isscheckbox);
+  //console.log(isscheckbox);
 
   isscheckbox.addEventListener("click", function () {
     if (issOpen) {
@@ -29,18 +29,21 @@ deanimate = () => {
 
 
   fetchiss = function () {
-   /* fetch("https://tle.ivanstanojevic.me/api/tle/25544") // fetching the data from celesTrak (TLE API)
-      .then((response) => response.json()) // pulling json file from the response
-      .then((data) => */
+   fetch("https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=2le") // fetching the data from celesTrak (TLE API)
+      .then(async (response) => {
+
+        let res = await response.text();
+        let arr = res.split("2 25544");
         tledata1(
-          "1 25544U 98067A   22296.61411075  .00009673  00000+0  17934-3 0  9997",
-          "2 25544  51.6435  60.3357 0005249   7.9656 359.4428 15.49658807365106"
+          arr[0],
+          "2 25544"+arr[1]
         )
-     // ); //Line 1 and Line 2 is from TLE format
+      }
+      ); //Line 1 and Line 2 is from TLE format
   };
 
   tledata1 = function (line1, line2) {
-    console.log(line1, line2);
+    //console.log(line1, line2);
     display(line1, line2);
     var pathcord = path(line1, line2);
     pathcordiss1.setLatLngs(pathcord[0]);
@@ -80,7 +83,7 @@ var tssOpen = true; // BOOLEAN VARIABLE TO TOGGLE ISS MARKERS
 yuck2 = function () {
   var tsscheckbox = document.getElementById("tsscheckbox");
 
-  console.log(tsscheckbox);
+  //console.log(tsscheckbox);
 
   tsscheckbox.addEventListener("click", function () {
     if (tssOpen) {
@@ -101,17 +104,22 @@ deanimate2 = () => {
 };
 
   fetchtss = function () {
-    /*fetch("https://tle.ivanstanojevic.me/api/tle/48274") // fetching the data from celesTrak (TLE API)
-      .then((response) => response.json()) // pulling json file from the response
-      .then((data) =>*/
-        tledata2("1 48274U 21035A   22296.38419186  .00023451  00000+0  26700-3 0  9999",
-        "2 48274  41.4738 157.7999 0003952 195.5225 333.5828 15.61707344 84810")
-      
-      //); //Line 1 and Line 2 is from TLE format
+    fetch("https://celestrak.org/NORAD/elements/gp.php?CATNR=48274&FORMAT=2le") // fetching the data from celesTrak (TLE API)
+      .then(async (response2) => {
+
+        let res2 = await response2.text();
+        let arr2 = res2.split("2 48274");
+
+        //console.log(arr2[0])
+        //console.log(arr2[1])
+
+        tledata2(arr2[0],
+        "2 48274"+arr2[1])
+      }) // pulling json file from the response
   };
 
   tledata2 = function (line1, line2) {
-    console.log(line1, line2);
+    //console.log(line1, line2);
     displaytss(line1, line2);
     var pathcord = path(line1, line2);
     pathcordtss1.setLatLngs(pathcord[0]);
