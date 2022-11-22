@@ -167,7 +167,7 @@ path = function (line1, line2) {
   var date = new Date();
   var i = 0;
 
-  console.log(date);
+  //console.log(date);
   for (; i < 5500; i++) {
     var positionAndVelocity = satellite.propagate(satrec, date);
     const gmst = satellite.gstime(date);
@@ -204,6 +204,6 @@ path = function (line1, line2) {
     date = new Date(date.getTime() + 1000);
   }
 
-  console.log(pathC1, pathC2, i, j, date);
+ // console.log(pathC1, pathC2, i, j, date);
   return [pathC1, pathC2];
 };
