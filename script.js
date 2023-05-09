@@ -17,65 +17,55 @@ yuck1 = function () {
   });
 };
 
-
-
 deanimate = () => {
-    clearTimeout(y);
-    map.removeLayer(pathcordiss1);
-    map.removeLayer(pathcordiss2);
-    map.removeLayer(satmarkeriss);
-    map.removeLayer(satcircleiss);
+  clearTimeout(y);
+  map.removeLayer(pathcordiss1);
+  map.removeLayer(pathcordiss2);
+  map.removeLayer(satmarkeriss);
+  map.removeLayer(satcircleiss);
 };
 
+fetchiss = function () {
+  fetch("https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=2le") // fetching the data from celesTrak (TLE API)
+    .then(async (response) => {
+      let res = await response.text();
+      let arr = res.split("2 25544");
+      tledata1(arr[0], "2 25544" + arr[1]);
+    }); //Line 1 and Line 2 is from TLE format
+};
 
-  fetchiss = function () {
-   fetch("https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=2le") // fetching the data from celesTrak (TLE API)
-      .then(async (response) => {
+tledata1 = function (line1, line2) {
+  //console.log(line1, line2);
+  display(line1, line2);
+  var pathcord = path(line1, line2);
+  pathcordiss1.setLatLngs(pathcord[0]);
+  pathcordiss2.setLatLngs(pathcord[1]);
+  //pathiss(pathcord);
+};
 
-        let res = await response.text();
-        let arr = res.split("2 25544");
-        tledata1(
-          arr[0],
-          "2 25544"+arr[1]
-        )
-      }
-      ); //Line 1 and Line 2 is from TLE format
-  };
+display = function (line1, line2) {
+  map.addLayer(pathcordiss1);
+  map.addLayer(pathcordiss2);
+  map.addLayer(satmarkeriss);
+  map.addLayer(satcircleiss);
 
-  tledata1 = function (line1, line2) {
-    //console.log(line1, line2);
-    display(line1, line2);
-    var pathcord = path(line1, line2);
-    pathcordiss1.setLatLngs(pathcord[0]);
-    pathcordiss2.setLatLngs(pathcord[1]);
-    //pathiss(pathcord);
-  };
+  var cords = this.cords(line1, line2);
+  isslong = cords[0];
+  isslat = cords[1];
 
-  display = function (line1, line2) {
+  //console.log(isslong.toFixed(4),isslat.toFixed(4));
 
-    map.addLayer(pathcordiss1);
-    map.addLayer(pathcordiss2);
-    map.addLayer(satmarkeriss);
-    map.addLayer(satcircleiss);
+  satmarkeriss.setLatLng([isslat, isslong]);
+  satcircleiss.setLatLng([isslat, isslong]);
+  //locateiss(isslat,isslong); //map.js function
 
-    var cords = this.cords(line1, line2);
-    isslong = cords[0];
-    isslat = cords[1];
+  document.getElementById("ISS").innerHTML =
+    "Longitude: " + isslong.toFixed(4) + "   Latitude: " + isslat.toFixed(4); // printing on the HTML
 
-    //console.log(isslong.toFixed(4),isslat.toFixed(4));
-
-    satmarkeriss.setLatLng([isslat, isslong]);
-    satcircleiss.setLatLng([isslat, isslong]);
-    //locateiss(isslat,isslong); //map.js function
-
-    document.getElementById("ISS").innerHTML =
-      "Longitude: " + isslong.toFixed(4) + "   Latitude: " + isslat.toFixed(4); // printing on the HTML
-
-    // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
-    // this.l1 = line1; this.l2 = line2;
-    y = setTimeout(this.display, 1000, line1, line2);
-  };
-
+  // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
+  // this.l1 = line1; this.l2 = line2;
+  y = setTimeout(this.display, 1000, line1, line2);
+};
 
 var x;
 var tssOpen = true; // BOOLEAN VARIABLE TO TOGGLE ISS MARKERS
@@ -96,143 +86,58 @@ yuck2 = function () {
   });
 };
 deanimate2 = () => {
-    clearTimeout(x);
-    map.removeLayer(pathcordtss1);
-    map.removeLayer(pathcordtss2);
-    map.removeLayer(satmarkertss);
-    map.removeLayer(satcircletss);
+  clearTimeout(x);
+  map.removeLayer(pathcordtss1);
+  map.removeLayer(pathcordtss2);
+  map.removeLayer(satmarkertss);
+  map.removeLayer(satcircletss);
 };
 
-  fetchtss = function () {
-    fetch("https://celestrak.org/NORAD/elements/gp.php?CATNR=48274&FORMAT=2le") // fetching the data from celesTrak (TLE API)
-      .then(async (response2) => {
-
-        let res2 = await response2.text();
-        let arr2 = res2.split("2 48274");
-
-        //console.log(arr2[0])
-        //console.log(arr2[1])
-
-        tledata2(arr2[0],
-        "2 48274"+arr2[1])
-      }) // pulling json file from the response
-  };
-
-  tledata2 = function (line1, line2) {
-    //console.log(line1, line2);
-    displaytss(line1, line2);
-    var pathcord = path(line1, line2);
-    pathcordtss1.setLatLngs(pathcord[0]);
-    pathcordtss2.setLatLngs(pathcord[1]);
-    //pathiss(pathcord);
-  };
-
-  displaytss = function (line1, line2) {
-
-    map.addLayer(pathcordtss1);
-    map.addLayer(pathcordtss2);
-    map.addLayer(satmarkertss);
-    map.addLayer(satcircletss);
-
-    var cords = this.cords(line1, line2);
-    tsslong = cords[0];
-    tsslat = cords[1];
-
-    //console.log(isslong.toFixed(4),isslat.toFixed(4));
-
-    satmarkertss.setLatLng([tsslat, tsslong]);
-    satcircletss.setLatLng([tsslat, tsslong]);
-    //locateiss(isslat,isslong); //map.js function
-
-    document.getElementById("TSS").innerHTML =
-      "Longitude: " + tsslong.toFixed(4) + " Latitude: " + tsslat.toFixed(4); // printing on the HTML
-
-    // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
-    // this.l1 = line1; this.l2 = line2;
-    this.x = setTimeout(this.displaytss, 1000, line1, line2);
-  };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+fetchtss = function () {
+  fetch("https://celestrak.org/NORAD/elements/gp.php?CATNR=48274&FORMAT=2le") // fetching the data from celesTrak (TLE API)
+    .then(async (response2) => {
+      let res2 = await response2.text();
+      let arr2 = res2.split("2 48274");
+
+      //console.log(arr2[0])
+      //console.log(arr2[1])
+
+      tledata2(arr2[0], "2 48274" + arr2[1]);
+    }); // pulling json file from the response
+};
+
+tledata2 = function (line1, line2) {
+  //console.log(line1, line2);
+  displaytss(line1, line2);
+  var pathcord = path(line1, line2);
+  pathcordtss1.setLatLngs(pathcord[0]);
+  pathcordtss2.setLatLngs(pathcord[1]);
+  //pathiss(pathcord);
+};
+
+displaytss = function (line1, line2) {
+  map.addLayer(pathcordtss1);
+  map.addLayer(pathcordtss2);
+  map.addLayer(satmarkertss);
+  map.addLayer(satcircletss);
+
+  var cords = this.cords(line1, line2);
+  tsslong = cords[0];
+  tsslat = cords[1];
+
+  //console.log(isslong.toFixed(4),isslat.toFixed(4));
+
+  satmarkertss.setLatLng([tsslat, tsslong]);
+  satcircletss.setLatLng([tsslat, tsslong]);
+  //locateiss(isslat,isslong); //map.js function
+
+  document.getElementById("TSS").innerHTML =
+    "Longitude: " + tsslong.toFixed(4) + " Latitude: " + tsslat.toFixed(4); // printing on the HTML
+
+  // doing recursion with same TLE data because TLE doesnt have to get updated every sec.
+  // this.l1 = line1; this.l2 = line2;
+  this.x = setTimeout(this.displaytss, 1000, line1, line2);
+};
 
 /*
 
