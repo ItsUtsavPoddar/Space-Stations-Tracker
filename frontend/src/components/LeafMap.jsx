@@ -16,7 +16,7 @@ const LeafMap = () => {
           [-90, -180],
           [90, 180],
         ]}
-        minZoom={1.7}
+        minZoom={1}
         style={{
           marginTop: 50,
           height: 600,

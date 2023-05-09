@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import React from "react";
 import { Marker, Popup } from "react-leaflet";
 import axios from "axios";
+import L from "leaflet";
 var satellite = require("satellite.js");
 
 const Calculation = () => {
+  let Sat = L.icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/1209/1209255.png?w=360",
+    iconSize: [25, 25],
+    iconAnchor: [15, 15],
+  });
   const [longi, setlong] = useState(0);
   const [lati, setlat] = useState(0);
-  const [loc, setloc] = useState([]);
   const [ar1, setarr1] = useState([]);
 
   // const fetchData = () => {
@@ -22,7 +27,7 @@ const Calculation = () => {
 
   useEffect(() => {
     //fetchData();
-    setInterval();
+    setInterval(fitLat, 1000);
   }, []);
 
   const cords = (line1, line2) => {
@@ -54,7 +59,7 @@ const Calculation = () => {
     return [long, lat];
   };
 
-  setInterval(() => {
+  const fitLat = () => {
     var foo = cords(
       "1 25544U 98067A   23129.52382288  .00015688  00000+0  28157-3 0  9998",
       "2 25544  51.6404 160.1596 0006193 328.0352 127.9636 15.50062205395795"
@@ -62,13 +67,11 @@ const Calculation = () => {
     console.log(foo);
     setlat(foo[0]);
     setlong(foo[1]);
-    console.log(lati);
-    console.log(longi);
-  }, 6000);
+  };
 
   return (
     <div>
-      <Marker position={[lati, longi]}>
+      <Marker position={[longi, lati]} icon={Sat}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
