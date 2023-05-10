@@ -9,7 +9,7 @@ const LeafMap = () => {
     <div>
       <MapContainer
         center={[21, 78]}
-        zoom={3}
+        zoom={2}
         scrollWheelZoom={true}
         worldCopyJump={true}
         maxBounds={[

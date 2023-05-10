@@ -13,21 +13,42 @@ const Calculation = () => {
   });
   const [longi, setlong] = useState(0);
   const [lati, setlat] = useState(0);
-  const [ar1, setarr1] = useState([]);
+  const [ar1, setarr1] = useState([0, 0]);
+  var xyz;
+  var abc;
+  const fetchData = async () => {
+    // return axios
+    //   .get("https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=2le")
+    //   .then((response) => {
+    //     response.headers["text/plain"];
+    //     typeof response.data; // 'string'
+    //     response.data;
+    //     setarr1(response.split("2 25544"));
+    //     console.log(ar1);
+    //   }); //Line 1 and Line 2 is from TLE format
 
-  // const fetchData = () => {
-  //   return fetch(
-  //     "https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=2le"
-  //   ).then(async (response) => {
-  //     let res = await response.text();
-  //     setarr1(res.split("2 25544"));
-  //     console.log(ar1);
-  //   }); //Line 1 and Line 2 is from TLE format
-  // };
+    try {
+      const response = await axios.get(
+        "https://celestrak.org/NORAD/elements/gp.php",
+        {
+          params: {
+            CATNR: 25544,
+            FORMAT: "2le",
+          },
+        }
+      );
+      xyz = response.data;
+      xyz.toString();
+      abc = xyz.split("2 25544");
+      setarr1(abc);
+      console.log(typeof xyz);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    //fetchData();
-    setInterval(fitLat, 1000);
+    fetchData().then(() => setInterval(fitLat, 2000));
   }, []);
 
   const cords = (line1, line2) => {
@@ -60,10 +81,10 @@ const Calculation = () => {
   };
 
   const fitLat = () => {
-    var foo = cords(
-      "1 25544U 98067A   23129.52382288  .00015688  00000+0  28157-3 0  9998",
-      "2 25544  51.6404 160.1596 0006193 328.0352 127.9636 15.50062205395795"
-    );
+    console.log(ar1[0]);
+    console.log(ar1[1]);
+
+    var foo = cords(abc[0], "2 25544 " + abc[1]);
     console.log(foo);
     setlat(foo[0]);
     setlong(foo[1]);
