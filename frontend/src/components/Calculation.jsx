@@ -13,7 +13,7 @@ const Calculation = () => {
   });
   const [longi, setlong] = useState(0);
   const [lati, setlat] = useState(0);
-  const [ar1, setarr1] = useState([]);
+  const [ar1, setarr1] = useState([0, 0]);
   var xyz;
   var abc;
   const fetchData = async () => {
@@ -38,23 +38,23 @@ const Calculation = () => {
         }
       );
       xyz = response.data;
-      xyz = xyz.toString();
+      xyz.toString();
       abc = xyz.split("2 25544");
-      abc[0] = abc[0].replace(/(\r\n|\n|\r)/gm, "");
-      abc[1] = abc[1].replace(/(\r\n|\n|\r)/gm, "");
-      setarr1([...ar1, abc[0], abc[1]]);
-      setInterval(fitLat(abc), 10000);
+      setarr1(abc);
+      // console.log(xyz);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData().then(() => setInterval(fitLat, 2000));
   }, []);
 
   const cords = (line1, line2) => {
+    // console.log(line1, line2);
     const satrec = satellite.twoline2satrec(line1, line2); // Initializing the satellite record with the TLE (line 1 and line 2)
+    // console.log(satrec)
     var date = new Date();
 
     //date = new Date (date.getTime() + 800000); // <-- TEST CODE (DO NOT UNCOMMENT THE CODE IF YOU DONT KNOW WHAT YOU ARE DOING)
@@ -64,39 +64,43 @@ const Calculation = () => {
     // https://celestrak.org/columns/v02n01/#:~:text=The%20ECI%20coordinate%20system%20(see,orthogonal%20(mutually%20perpendicular)%20axes.
 
     var positionAndVelocity = satellite.propagate(satrec, date);
+    // console.log(positionAndVelocity);
 
     // grabbing GMST for the coordinate transforms.
     // https://en.wikipedia.org/wiki/Sidereal_time#Definition
 
     const gmst = satellite.gstime(date);
+    // console.log(gmst);
 
     // converts Earth-centered inertial ECI coordinates, specified by position, to latitude, longitude, altitude (LLA) geodetic coordinates.
     const positionGd = satellite.eciToGeodetic(
       positionAndVelocity.position,
       gmst
     );
+    // console.log(positionGd);
+
+    
 
     // Converting the RADIANS to DEGREES (given the results were in radians)
     const long = (180 * positionGd.longitude) / Math.PI;
     const lat = (180 * positionGd.latitude) / Math.PI;
+   
     return [long, lat];
   };
 
-  const fitLat = (abc) => {
-    console.log(abc);
-    var y = abc[0];
-    var z = "2 25544 " + abc[1];
-    console.log(y);
-    console.log(z);
-    var foo = cords(y, z);
-    console.log(foo);
+  const fitLat = () => {
+    // console.log(ar1[0]);
+    // console.log(ar1[1]);
+
+    var foo = cords(abc[0], "2 25544 " + abc[1].trim());
+    // console.log(foo);
     setlat(foo[0]);
     setlong(foo[1]);
   };
 
   return (
     <div>
-      ${ar1}
+      {/* <h1>{ar1}</h1> */}
       <Marker position={[longi, lati]} icon={Sat}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
