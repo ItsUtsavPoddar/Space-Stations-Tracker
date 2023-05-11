@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import React from "react";
-import { Marker, Popup, Polyline } from "react-leaflet";
+import { Marker, Popup, Polyline, Circle, CircleMarker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
 var satellite = require("satellite.js");
@@ -13,6 +13,7 @@ const Calculation = () => {
   });
   const [longi, setlong] = useState(0);
   const [lati, setlat] = useState(0);
+  const [height, setheight] = useState(0);
   const [path1, setpath1] = useState(0);
   const [path2, setpath2] = useState(0);
   var xyz;
@@ -91,8 +92,9 @@ const Calculation = () => {
     // Converting the RADIANS to DEGREES (given the results were in radians)
     const long = (180 * positionGd.longitude) / Math.PI;
     const lat = (180 * positionGd.latitude) / Math.PI;
+    const height = positionGd.height;
     console.log([long, lat]);
-    return [long, lat];
+    return [long, lat, height];
   };
 
   const path = (line1, line2) => {
@@ -151,6 +153,7 @@ const Calculation = () => {
     // console.log(foo);
     setlat(foo[1]);
     setlong(foo[0]);
+    setheight(foo[2]);
   };
   const fitpath = () => {
     // console.log(ar1[0]);
@@ -167,7 +170,7 @@ const Calculation = () => {
     <div>
       {/* <h1>{ar1}</h1> */}
       <Marker position={[lati, longi]} icon={Sat}>
-        <Popup>ISS</Popup>
+        <Popup>height: {height.toFixed(4)}</Popup>
       </Marker>
 
       <Polyline
@@ -187,6 +190,18 @@ const Calculation = () => {
         }}
         smoothFactor={2}
       ></Polyline>
+
+      <Circle
+        center={[lati, longi]}
+        radius={2200e3}
+        pathOptions={{
+          weight: 1.5,
+          opacity: 0.7,
+          color: "red",
+          fillColor: "#f03",
+          fillOpacity: 0.2,
+        }}
+      ></Circle>
     </div>
   );
 };

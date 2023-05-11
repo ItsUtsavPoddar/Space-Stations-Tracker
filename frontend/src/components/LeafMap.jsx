@@ -1,10 +1,13 @@
 import React from "react";
 import { MapContainer, TileLayer, useMap, Popup, Marker } from "react-leaflet";
+import { useState, useEffect } from "react";
+
 import "leaflet/dist/leaflet.css";
 import { NightRegion } from "react-leaflet-night-region";
 import Calculation from "./Calculation";
 
 const LeafMap = () => {
+  // const [satellites, setsatellites] = useState([]);
   return (
     <div>
       <MapContainer
@@ -16,7 +19,7 @@ const LeafMap = () => {
           [-90, -180],
           [90, 180],
         ]}
-        minZoom={1}
+        minZoom={2}
         style={{
           marginTop: 50,
           height: 600,
