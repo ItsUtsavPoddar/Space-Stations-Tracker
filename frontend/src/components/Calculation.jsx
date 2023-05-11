@@ -13,7 +13,7 @@ const Calculation = () => {
   });
   const [longi, setlong] = useState(0);
   const [lati, setlat] = useState(0);
-  const [ar1, setarr1] = useState([0, 0]);
+  const [ar1, setarr1] = useState([]);
   var xyz;
   var abc;
   const fetchData = async () => {
@@ -38,17 +38,19 @@ const Calculation = () => {
         }
       );
       xyz = response.data;
-      xyz.toString();
+      xyz = xyz.toString();
       abc = xyz.split("2 25544");
-      setarr1(abc);
-      console.log(typeof xyz);
+      abc[0] = abc[0].replace(/(\r\n|\n|\r)/gm, "");
+      abc[1] = abc[1].replace(/(\r\n|\n|\r)/gm, "");
+      setarr1([...ar1, abc[0], abc[1]]);
+      setInterval(fitLat(abc), 10000);
     } catch (error) {
       console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchData().then(() => setInterval(fitLat, 2000));
+    fetchData();
   }, []);
 
   const cords = (line1, line2) => {
@@ -80,11 +82,13 @@ const Calculation = () => {
     return [long, lat];
   };
 
-  const fitLat = () => {
-    console.log(ar1[0]);
-    console.log(ar1[1]);
-
-    var foo = cords(abc[0], "2 25544 " + abc[1]);
+  const fitLat = (abc) => {
+    console.log(abc);
+    var y = abc[0];
+    var z = "2 25544 " + abc[1];
+    console.log(y);
+    console.log(z);
+    var foo = cords(y, z);
     console.log(foo);
     setlat(foo[0]);
     setlong(foo[1]);
@@ -92,6 +96,7 @@ const Calculation = () => {
 
   return (
     <div>
+      ${ar1}
       <Marker position={[longi, lati]} icon={Sat}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
