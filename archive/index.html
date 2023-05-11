@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Space Station Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/satellite.js/4.0.0/satellite.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin=""
+    />
+
+    <script
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+      crossorigin=""
+    ></script>
+    
+    <script type="text/javascript"> (function(){ var s =
+      document.createElement('script'); s.src =
+      document.location.protocol+'//static.statvoo.com/js/analytics-min.js'; s.type =
+      'text/javascript'; s.async = true; var t =
+      document.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s, t); })();
+      </script>
+      
+  </head>
+  <body onload="fetchiss(), yuck1(), yuck2(),fetchtss()">
+    <div class="body">
+      <h1>Space Station Tracker</h1>
+      <h2>Live Position</h2>
+      <p>
+        Toggle the switches to see the Satellites and their Paths. (Don't click
+        both buttons immediately)
+      </p>
+      <div class="table">
+        <article class="data">
+          <h3 class="satellite">ISS</h3>
+          <p class="backronym">(International Space Station)</p>
+          <p id="ISS" class="cords">
+            Longitude: 69&emsp;&emsp;&emsp;&emsp;Latitude: 69
+          </p>
+        </article>
+
+        <article class="data">
+          <h3 class="satellite">TSS</h3>
+          <p class="backronym">(Tiangong Space Station)</p>
+          <p id="TSS" class="cords">
+            Longitude: 69&emsp;&emsp;&emsp;&emsp;Latitude: 69
+          </p>
+        </article>
+      </div>
+    </div>
+    <div id="selectSat">
+      <div>
+        <input type="button" id="isscheckbox" name="isscheckbox" value="ISS" />
+        <label for="isscheckbox"></label>
+      </div>
+
+      <div>
+        <input type="button" id="tsscheckbox" name="tsscheckbox" value="TSS" />
+        <label for="tsscheckbox"></label>
+      </div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="script.js"></script>
+    <script src="https://unpkg.com/@joergdietrich/leaflet.terminator"></script>
+    <script src="map.js"></script>
+    <script></script>
+  </body>
+</html>
