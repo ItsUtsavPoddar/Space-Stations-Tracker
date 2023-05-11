@@ -94,8 +94,8 @@ const Calculation = () => {
 
     var foo = cords(abc[0], "2 25544 " + abc[1].trim());
     // console.log(foo);
-    setlat(foo[0]);
-    setlong(foo[1]);
+    setlat(foo[1]);
+    setlong(foo[0]);
   };
 
   return (
