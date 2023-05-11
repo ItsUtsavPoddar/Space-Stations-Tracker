@@ -13,7 +13,6 @@ const Calculation = () => {
   });
   const [longi, setlong] = useState(0);
   const [lati, setlat] = useState(0);
-  const [ar1, setarr1] = useState([0, 0]);
   var xyz;
   var abc;
   const fetchData = async () => {
@@ -39,9 +38,9 @@ const Calculation = () => {
       );
       xyz = response.data;
       xyz.toString();
+      console.log(xyz);
       abc = xyz.split("2 25544");
-      setarr1(abc);
-      // console.log(xyz);
+      console.log(abc[1].trim());
     } catch (error) {
       console.error(error);
     }
@@ -79,20 +78,66 @@ const Calculation = () => {
     );
     // console.log(positionGd);
 
-    
-
     // Converting the RADIANS to DEGREES (given the results were in radians)
     const long = (180 * positionGd.longitude) / Math.PI;
     const lat = (180 * positionGd.latitude) / Math.PI;
-   
+    console.log([long, lat]);
     return [long, lat];
+  };
+
+  const path = (line1, line2) => {
+    var pathC1 = [];
+    var pathC2 = [];
+    const satrec = satellite.twoline2satrec(line1, line2);
+    var date = new Date();
+    var i = 0;
+
+    //console.log(date);
+    for (; i < 5500; i++) {
+      var positionAndVelocity = satellite.propagate(satrec, date);
+      const gmst = satellite.gstime(date);
+      const positionGd = satellite.eciToGeodetic(
+        positionAndVelocity.position,
+        gmst
+      );
+
+      const long = satellite.degreesLong(positionGd.longitude);
+      const lat = satellite.degreesLong(positionGd.latitude);
+      if (long < 179.8) {
+        pathC1.push([lat, long]);
+      } else if (long > 179.75) {
+        break;
+      }
+      date = new Date(date.getTime() + 1000);
+    }
+
+    for (var j = 0; j < 5500 - i; j++) {
+      var positionAndVelocity = satellite.propagate(satrec, date);
+      const gmst = satellite.gstime(date);
+      const positionGd = satellite.eciToGeodetic(
+        positionAndVelocity.position,
+        gmst
+      );
+
+      const long = satellite.degreesLong(positionGd.longitude);
+      const lat = satellite.degreesLong(positionGd.latitude);
+
+      if (long >= -180 && long <= 179) {
+        pathC2.push([lat, long]);
+      }
+
+      date = new Date(date.getTime() + 1000);
+    }
+
+    // console.log(pathC1, pathC2, i, j, date);
+    return [pathC1, pathC2];
   };
 
   const fitLat = () => {
     // console.log(ar1[0]);
     // console.log(ar1[1]);
 
-    var foo = cords(abc[0], "2 25544 " + abc[1].trim());
+    var foo = cords(abc[0], "2 25544  " + abc[1].trim());
     // console.log(foo);
     setlat(foo[1]);
     setlong(foo[0]);
@@ -101,7 +146,7 @@ const Calculation = () => {
   return (
     <div>
       {/* <h1>{ar1}</h1> */}
-      <Marker position={[ lati,longi]} icon={Sat}>
+      <Marker position={[lati, longi]} icon={Sat}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
