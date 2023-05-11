@@ -101,7 +101,7 @@ const Calculation = () => {
   return (
     <div>
       {/* <h1>{ar1}</h1> */}
-      <Marker position={[longi, lati]} icon={Sat}>
+      <Marker position={[ lati,longi]} icon={Sat}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
