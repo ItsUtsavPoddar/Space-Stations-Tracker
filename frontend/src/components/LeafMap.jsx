@@ -31,13 +31,12 @@ const LeafMap = () => {
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
-        <Calculation />
-
         <NightRegion
           fillColor="#00345c"
           color="#001a2e"
           refreshInterval={500} // custom refresh rate in milliseconds, default set to 5000ms
         />
+        <Calculation />
       </MapContainer>
     </div>
   );

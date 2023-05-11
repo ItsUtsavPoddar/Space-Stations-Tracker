@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import React from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, Polyline } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
 var satellite = require("satellite.js");
@@ -8,13 +8,23 @@ var satellite = require("satellite.js");
 const Calculation = () => {
   let Sat = L.icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/1209/1209255.png?w=360",
-    iconSize: [25, 25],
+    iconSize: [30, 30],
     iconAnchor: [15, 15],
   });
   const [longi, setlong] = useState(0);
   const [lati, setlat] = useState(0);
+  const [path1, setpath1] = useState(0);
+  const [path2, setpath2] = useState(0);
   var xyz;
   var abc;
+
+  useEffect(() => {
+    fetchData().then(
+      () => setInterval(fitLat, 2000),
+      setInterval(fitpath, 20000)
+    );
+  }, []);
+
   const fetchData = async () => {
     // return axios
     //   .get("https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=2le")
@@ -27,28 +37,28 @@ const Calculation = () => {
     //   }); //Line 1 and Line 2 is from TLE format
 
     try {
-      const response = await axios.get(
-        "https://celestrak.org/NORAD/elements/gp.php",
-        {
-          params: {
-            CATNR: 25544,
-            FORMAT: "2le",
-          },
-        }
-      );
-      xyz = response.data;
+      // const response = await axios.get(
+      //   "https://celestrak.org/NORAD/elements/gp.php",
+      //   {
+      //     params: {
+      //       CATNR: 25544,
+      //       FORMAT: "2le",
+      //     },
+      //   }
+      // );
+      xyz =
+        "1 25544U 98067A   23131.59547726  .00014612  00000+0  26229-3 0  9992 2 25544  51.6400 149.8957 0006321 335.8261 168.3051 15.50121033396116";
+      //response.data;
       xyz.toString();
       console.log(xyz);
       abc = xyz.split("2 25544");
       console.log(abc[1].trim());
+      fitLat();
+      fitpath();
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    fetchData().then(() => setInterval(fitLat, 2000));
-  }, []);
 
   const cords = (line1, line2) => {
     // console.log(line1, line2);
@@ -142,15 +152,41 @@ const Calculation = () => {
     setlat(foo[1]);
     setlong(foo[0]);
   };
+  const fitpath = () => {
+    // console.log(ar1[0]);
+    // console.log(ar1[1]);
+
+    var latlngs = path(abc[0], "2 25544  " + abc[1].trim());
+    // console.log(foo);
+    setpath1(latlngs[0]);
+    setpath2(latlngs[1]);
+    console.log(latlngs);
+  };
 
   return (
     <div>
       {/* <h1>{ar1}</h1> */}
       <Marker position={[lati, longi]} icon={Sat}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
+        <Popup>ISS</Popup>
       </Marker>
+
+      <Polyline
+        positions={path1}
+        pathOptions={{
+          color: "blue",
+          weight: 1.5,
+        }}
+        smoothFactor={2}
+      ></Polyline>
+
+      <Polyline
+        positions={path2}
+        pathOptions={{
+          color: "blue",
+          weight: 1.5,
+        }}
+        smoothFactor={2}
+      ></Polyline>
     </div>
   );
 };
