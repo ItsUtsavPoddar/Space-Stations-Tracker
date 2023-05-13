@@ -21,12 +21,9 @@ const LeafMap = () => {
         ]}
         minZoom={2}
         style={{
-          marginTop: 50,
           height: 600,
           width: "70%",
           borderRadius: 10,
-          display: "inline-block",
-          margin: "auto",
         }}
       >
         <TileLayer
@@ -37,7 +34,7 @@ const LeafMap = () => {
         <NightRegion
           fillColor="#00345c"
           color="#001a2e"
-          refreshInterval={500} // custom refresh rate in milliseconds, default set to 5000ms
+          refreshInterval={2000} // custom refresh rate in milliseconds, default set to 5000ms
         />
         <Calculation />
       </MapContainer>

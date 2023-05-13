@@ -169,8 +169,13 @@ const Calculation = () => {
   return (
     <div>
       {/* <h1>{ar1}</h1> */}
-      <Marker position={[lati, longi]} icon={Sat}>
-        <Popup>height: {height.toFixed(4)}</Popup>
+      <Marker
+        position={[lati, longi]}
+        icon={Sat}
+        autoPanOnFocus={false}
+        autoPan={false}
+      >
+        <Popup autoPan={false}>height: {height.toFixed(4)}</Popup>
       </Marker>
 
       <Polyline
