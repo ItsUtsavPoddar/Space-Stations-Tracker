@@ -14,6 +14,7 @@ const AddSatellite = () => {
         satAdded({
           id: sat,
           name: "BOOOOO",
+          coords: ["", ""],
         })
       );
 

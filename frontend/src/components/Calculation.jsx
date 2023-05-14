@@ -3,6 +3,8 @@ import React from "react";
 import { Marker, Popup, Polyline, Circle, CircleMarker } from "react-leaflet";
 import axios from "axios";
 import L from "leaflet";
+import { satCoordsUpdated } from "../app/coordinates/coordinatesSlice";
+import { useDispatch } from "react-redux";
 var satellite = require("satellite.js");
 
 const Calculation = (satnumber) => {
@@ -11,6 +13,8 @@ const Calculation = (satnumber) => {
     iconSize: [30, 30],
     iconAnchor: [15, 15],
   });
+
+  const dispatch = useDispatch();
   const [longi, setlong] = useState(0);
   const [lati, setlat] = useState(0);
   const [height, setheight] = useState(0);
@@ -155,6 +159,12 @@ const Calculation = (satnumber) => {
     setlat(foo[1]);
     setlong(foo[0]);
     setheight(foo[2]);
+    dispatch(
+      satCoordsUpdated({
+        id: satnumber.satnumber,
+        coords: [foo[0].toFixed(4), foo[1].toFixed(4)],
+      })
+    );
   };
   const fitpath = () => {
     // console.log(ar1[0]);

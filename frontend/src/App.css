@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital@0;1&display=swap");
 
 .App {
   text-align: center;
-  font-family: "Poppins";
+  font-family: "Space Mono";
   color: aliceblue;
 }

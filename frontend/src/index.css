@@ -1,5 +1,6 @@
 body {
-  background-image: url("https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg");
+  /* background-image: url("https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg"); */
   background-repeat: no-repeat;
+  background-color: rgb(12, 14, 35);
   background-size: 2600px 1463px;
 }

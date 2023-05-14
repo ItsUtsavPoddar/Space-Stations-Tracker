@@ -7,7 +7,9 @@ export const SatelliteList = () => {
   const renderedSats = satellite.map((sat) => (
     <article key={sat.id}>
       <h3>{sat.name}</h3>
-      <p>{sat.coords}</p>
+      <p>
+        Long : {sat.coords[0]} &emsp; Lat : {sat.coords[1]}
+      </p>
     </article>
   ));
 
