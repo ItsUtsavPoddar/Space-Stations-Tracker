@@ -13,7 +13,7 @@ const AddSatellite = () => {
       dispatch(
         satAdded({
           id: sat,
-          name: "BOOOOO",
+          name: "",
           coords: ["", ""],
         })
       );
