@@ -22,8 +22,8 @@ const LeafMap = () => {
         minZoom={2}
         style={{
           height: 600,
-          width: "70%",
-          borderRadius: 10,
+          width: "100%",
+          borderRadius: 15,
         }}
       >
         <TileLayer
@@ -36,7 +36,7 @@ const LeafMap = () => {
           color="#001a2e"
           refreshInterval={2000} // custom refresh rate in milliseconds, default set to 5000ms
         />
-        <Calculation />
+        <Calculation satnumber={"25544"} />
       </MapContainer>
     </div>
   );

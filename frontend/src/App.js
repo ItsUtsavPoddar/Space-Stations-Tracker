@@ -7,13 +7,31 @@ import AddSatellite from "./components/AddSatellite";
 function App() {
   return (
     <div className="App">
-      <h1>Space Station Tracker</h1>
-      <div>
-        <AddSatellite />
-        <React.Fragment>
+      <h1>Satellite Tracker</h1>
+      <div
+        style={{
+          display: "inline-flex",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            width: "40%",
+            paddingRight: "5%",
+            paddingLeft: "2%",
+          }}
+        >
+          <AddSatellite />
           <SatelliteList />
-        </React.Fragment>
-        <Map />
+        </div>
+        <div
+          style={{
+            width: "60%",
+            alignContent: "flex-end",
+          }}
+        >
+          <Map />
+        </div>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import axios from "axios";
 import L from "leaflet";
 var satellite = require("satellite.js");
 
-const Calculation = () => {
+const Calculation = (satnumber) => {
   let Sat = L.icon({
     iconUrl: "https://cdn-icons-png.flaticon.com/512/1209/1209255.png?w=360",
     iconSize: [30, 30],
@@ -21,8 +21,8 @@ const Calculation = () => {
 
   useEffect(() => {
     fetchData().then(
-      () => setInterval(fitLat, 2000),
-      setInterval(fitpath, 20000)
+      () => setInterval(fitLat, 3000),
+      setInterval(fitpath, 10000)
     );
   }, []);
 
@@ -42,7 +42,7 @@ const Calculation = () => {
       //   "https://celestrak.org/NORAD/elements/gp.php",
       //   {
       //     params: {
-      //       CATNR: 25544,
+      //       CATNR: satnumber.satnumber,
       //       FORMAT: "2le",
       //     },
       //   }
@@ -50,9 +50,10 @@ const Calculation = () => {
       xyz =
         "1 25544U 98067A   23131.59547726  .00014612  00000+0  26229-3 0  9992 2 25544  51.6400 149.8957 0006321 335.8261 168.3051 15.50121033396116";
       //response.data;
+
       xyz.toString();
       console.log(xyz);
-      abc = xyz.split("2 25544");
+      abc = xyz.split("2 " + satnumber.satnumber);
       console.log(abc[1].trim());
       fitLat();
       fitpath();
@@ -149,7 +150,7 @@ const Calculation = () => {
     // console.log(ar1[0]);
     // console.log(ar1[1]);
 
-    var foo = cords(abc[0], "2 25544  " + abc[1].trim());
+    var foo = cords(abc[0], "2 " + satnumber.satnumber + "  " + abc[1].trim());
     // console.log(foo);
     setlat(foo[1]);
     setlong(foo[0]);
@@ -158,8 +159,11 @@ const Calculation = () => {
   const fitpath = () => {
     // console.log(ar1[0]);
     // console.log(ar1[1]);
-
-    var latlngs = path(abc[0], "2 25544  " + abc[1].trim());
+    console.log(typeof satnumber.satnumber);
+    var latlngs = path(
+      abc[0],
+      "2 " + satnumber.satnumber + "  " + abc[1].trim()
+    );
     // console.log(foo);
     setpath1(latlngs[0]);
     setpath2(latlngs[1]);
@@ -175,7 +179,10 @@ const Calculation = () => {
         autoPanOnFocus={false}
         autoPan={false}
       >
-        <Popup autoPan={false}>height: {height.toFixed(4)}</Popup>
+        satnumber.satnumber
+        <Popup autoPan={false}>
+          height: {height.toFixed(4)} Sat Num: {satnumber.satnumber}
+        </Popup>
       </Marker>
 
       <Polyline

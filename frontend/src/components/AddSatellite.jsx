@@ -1,11 +1,25 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { satAdded } from "../app/coordinates/coordinatesSlice";
 
 const AddSatellite = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [sat, setsat] = useState("");
+  const dispatch = useDispatch();
 
-  const onTitleChanged = (e) => setTitle(e.target.value);
-  const onContentChanged = (e) => setContent(e.target.value);
+  const onSatchanged = (e) => setsat(e.target.value);
+
+  const submit = () => {
+    if (sat) {
+      dispatch(
+        satAdded({
+          id: sat,
+          name: "BOOOOO",
+        })
+      );
+
+      setsat("");
+    }
+  };
 
   return (
     <section>
@@ -16,11 +30,13 @@ const AddSatellite = () => {
           type="text"
           id="SatNo"
           name="SatNo"
-          value={title}
-          onChange={onTitleChanged}
+          value={sat}
+          onChange={onSatchanged}
         />
 
-        <button type="button">Whooooosh</button>
+        <button type="button" onClick={submit}>
+          Whooooosh
+        </button>
       </form>
     </section>
   );
