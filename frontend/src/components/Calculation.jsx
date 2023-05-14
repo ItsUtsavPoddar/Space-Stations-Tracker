@@ -22,43 +22,47 @@ const Calculation = (satnumber) => {
   const [path2, setpath2] = useState(0);
   var xyz;
   var abc;
+  var name;
 
   useEffect(() => {
     fetchData().then(
-      () => setInterval(fitLat, 3000),
-      setInterval(fitpath, 10000)
+      () => setInterval(fitLat, 2000),
+      setInterval(fitpath, 5000)
     );
   }, []);
 
   const fetchData = async () => {
-    // return axios
-    //   .get("https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=2le")
-    //   .then((response) => {
-    //     response.headers["text/plain"];
-    //     typeof response.data; // 'string'
-    //     response.data;
-    //     setarr1(response.split("2 25544"));
-    //     console.log(ar1);
-    //   }); //Line 1 and Line 2 is from TLE format
-
     try {
-      // const response = await axios.get(
-      //   "https://celestrak.org/NORAD/elements/gp.php",
-      //   {
-      //     params: {
-      //       CATNR: satnumber.satnumber,
-      //       FORMAT: "2le",
-      //     },
-      //   }
-      // );
+      const response = await axios.get(
+        "https://celestrak.org/NORAD/elements/gp.php",
+        {
+          params: {
+            CATNR: satnumber.satnumber,
+            FORMAT: "2le",
+          },
+        }
+      );
+
+      const respname = await axios.get(
+        "https://celestrak.org/NORAD/elements/gp.php",
+        {
+          params: {
+            CATNR: satnumber.satnumber,
+            FORMAT: "tle",
+          },
+        }
+      );
+      name = respname.data;
+      name = name.split("1 " + satnumber.satnumber);
+
       xyz =
-        "1 25544U 98067A   23131.59547726  .00014612  00000+0  26229-3 0  9992 2 25544  51.6400 149.8957 0006321 335.8261 168.3051 15.50121033396116";
-      //response.data;
+        // "1 25544U 98067A   23131.59547726  .00014612  00000+0  26229-3 0  9992 2 25544  51.6400 149.8957 0006321 335.8261 168.3051 15.50121033396116";
+        response.data;
 
       xyz.toString();
-      console.log(xyz);
+      //console.log(xyz);
       abc = xyz.split("2 " + satnumber.satnumber);
-      console.log(abc[1].trim());
+      // console.log(abc[1].trim());
       fitLat();
       fitpath();
     } catch (error) {
@@ -162,14 +166,16 @@ const Calculation = (satnumber) => {
     dispatch(
       satCoordsUpdated({
         id: satnumber.satnumber,
+        name: name[0].trim(),
         coords: [foo[0].toFixed(4), foo[1].toFixed(4)],
       })
     );
   };
+
   const fitpath = () => {
     // console.log(ar1[0]);
     // console.log(ar1[1]);
-    console.log(typeof satnumber.satnumber);
+    // console.log(typeof satnumber.satnumber);
     var latlngs = path(
       abc[0],
       "2 " + satnumber.satnumber + "  " + abc[1].trim()

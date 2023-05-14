@@ -1,13 +1,14 @@
 import React from "react";
 import { MapContainer, TileLayer, useMap, Popup, Marker } from "react-leaflet";
 import { useState, useEffect } from "react";
-
 import "leaflet/dist/leaflet.css";
 import { NightRegion } from "react-leaflet-night-region";
 import Calculation from "./Calculation";
+import CalculationList from "./CalculationList";
 
 const LeafMap = () => {
   // const [satellites, setsatellites] = useState([]);
+
   return (
     <div>
       <MapContainer
@@ -36,7 +37,8 @@ const LeafMap = () => {
           color="#001a2e"
           refreshInterval={2000} // custom refresh rate in milliseconds, default set to 5000ms
         />
-        <Calculation satnumber={"25544"} />
+        {/* <Calculation satnumber={"25544"} /> */}
+        <CalculationList></CalculationList>
       </MapContainer>
     </div>
   );

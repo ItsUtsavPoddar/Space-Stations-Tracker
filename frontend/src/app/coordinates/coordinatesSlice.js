@@ -10,10 +10,12 @@ const coordinatesSlice = createSlice({
       state.push(action.payload);
     },
     satCoordsUpdated(state, action) {
-      const { id, coords } = action.payload;
+      const { id, name, coords } = action.payload;
       const existingSat = state.find((sat) => sat.id === id);
+
       if (existingSat) {
         existingSat.coords = coords;
+        existingSat.name = name;
       }
     },
   },
