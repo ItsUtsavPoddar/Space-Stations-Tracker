@@ -52,7 +52,9 @@ const Calculation = (satnumber) => {
           },
         }
       );
-      name = respname.data;
+      name =
+        // "ISS";
+        respname.data;
       name = name.split("1 " + satnumber.satnumber);
 
       xyz =
@@ -195,7 +197,6 @@ const Calculation = (satnumber) => {
         autoPanOnFocus={false}
         autoPan={false}
       >
-        satnumber.satnumber
         <Popup autoPan={false}>
           height: {height.toFixed(4)} Sat Num: {satnumber.satnumber}
         </Popup>

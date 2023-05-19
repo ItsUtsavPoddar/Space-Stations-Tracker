@@ -8,28 +8,12 @@ function App() {
   return (
     <div className="App">
       <h1>Satellite Tracker</h1>
-      <div
-        style={{
-          display: "inline-flex",
-          width: "100%",
-        }}
-      >
-        <div
-          style={{
-            width: "40%",
-            paddingRight: "5%",
-            paddingLeft: "2%",
-          }}
-        >
+      <div class="container">
+        <div class="div1">
           <AddSatellite />
           <SatelliteList />
         </div>
-        <div
-          style={{
-            width: "60%",
-            alignContent: "flex-end",
-          }}
-        >
+        <div class="div2">
           <Map />
         </div>
       </div>
