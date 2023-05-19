@@ -22,7 +22,7 @@ const LeafMap = () => {
         ]}
         minZoom={2}
         style={{
-          height: "100vh",
+          height: "85vh",
           width: "100%",
           borderRadius: 15,
         }}

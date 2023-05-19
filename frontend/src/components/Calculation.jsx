@@ -55,6 +55,7 @@ const Calculation = (satnumber) => {
       name =
         // "ISS";
         respname.data;
+
       name = name.split("1 " + satnumber.satnumber);
 
       xyz =
