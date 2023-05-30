@@ -60,11 +60,13 @@ const Calculation = (satnumber) => {
 
       xyz =
         // "1 25544U 98067A   23131.59547726  .00014612  00000+0  26229-3 0  9992 2 25544  51.6400 149.8957 0006321 335.8261 168.3051 15.50121033396116";
+        // "1 56179U 23054B   23149.85624328  .00006627  00000+0  29623-3 0  9994 2 56179  97.4043  44.9672 0010893 101.7937 258.4522 15.21601277  7375";
         response.data;
 
       xyz.toString();
       //console.log(xyz);
       abc = xyz.split("2 " + satnumber.satnumber);
+      // abc = xyz.split("2 " + "56179");
       // console.log(abc[1].trim());
       fitLat();
       fitpath();
@@ -127,9 +129,9 @@ const Calculation = (satnumber) => {
 
       const long = satellite.degreesLong(positionGd.longitude);
       const lat = satellite.degreesLong(positionGd.latitude);
-      if (long < 179.8) {
+      if (long < 179.4) {
         pathC1.push([lat, long]);
-      } else if (long > 179.75) {
+      } else {
         break;
       }
       date = new Date(date.getTime() + 1000);
